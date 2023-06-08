@@ -1,11 +1,11 @@
+import Navbar from "./Shared/Navbar/Navbar";
 
 function App() {
-
   return (
     <>
-      hello world
+      <Navbar />
     </>
-  )
+  );
 }
 
-export default App
+export default App;
