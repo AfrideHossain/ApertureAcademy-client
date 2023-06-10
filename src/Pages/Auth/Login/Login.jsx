@@ -1,15 +1,27 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { BsGoogle } from "react-icons/bs";
 import { HiEye } from "react-icons/hi2";
 import { Link } from "react-router-dom";
 
 const Login = () => {
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useForm();
   const [showPass, setShowPass] = useState(false);
+  const submitHandler = (credentials) => {
+    console.log(credentials);
+  };
   return (
     <>
       <div className="flex justify-center items-center min-h-screen p-5">
         <div className="w-full md:max-w-sm p-5 border rounded-xl shadow-md space-y-5">
-          <form className="w-full space-y-2">
+          <form
+            className="w-full space-y-2"
+            onSubmit={handleSubmit(submitHandler)}
+          >
             <h1 className="text-3xl text-center font-bold mb-3">
               Welcome Back!
             </h1>
@@ -23,7 +35,13 @@ const Login = () => {
                 name="email"
                 className="input input-bordered input-accent"
                 placeholder="Email address"
+                {...register("email", { required: true })}
               />
+              <div className="mt-3 text-red-600">
+                {errors.email?.type === "required" && (
+                  <p role="alert">Email is required</p>
+                )}
+              </div>
             </div>
             <div className="form-control">
               <label htmlFor="password" className="label">
@@ -36,6 +54,7 @@ const Login = () => {
                   name="password"
                   className="w-full outline-none"
                   placeholder="Password"
+                  {...register("password", { required: true })}
                 />
                 <button
                   onClick={() => {
@@ -46,6 +65,11 @@ const Login = () => {
                 >
                   <HiEye className="h-8" />
                 </button>
+              </div>
+              <div className="mt-3 text-red-600">
+                {errors.password?.type === "required" && (
+                  <p role="alert">Password should not empty</p>
+                )}
               </div>
             </div>
             <div className="form-control">

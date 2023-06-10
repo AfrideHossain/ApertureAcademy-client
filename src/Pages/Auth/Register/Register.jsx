@@ -54,9 +54,9 @@ const Register = () => {
             </div>
             <div className="form-control">
               <p className="mt-1">
-                Don{"'"}t have an account?
-                <Link className="ms-2 text-blue-600 font-medium">
-                  Create one
+                Already have an account?
+                <Link className="ms-2 text-blue-600 font-medium" to={"/login"}>
+                  Login
                 </Link>
               </p>
             </div>
