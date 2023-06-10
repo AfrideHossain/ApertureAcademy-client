@@ -1,0 +1,74 @@
+[
+  {
+    "className": "Introduction to Landscape Photography",
+    "instructorName": "John Smith",
+    "totalStudents": 25,
+    "availableSeats": 5,
+    "pictureUrl": "https://example.com/landscape_photography.jpg",
+    "enrollFees": 99.99
+  },
+  {
+    "className": "Portrait Photography Masterclass",
+    "instructorName": "Emily Johnson",
+    "totalStudents": 18,
+    "availableSeats": 2,
+    "pictureUrl": "https://example.com/portrait_photography.jpg",
+    "enrollFees": 149.99
+  },
+  {
+    "className": "Street Photography Workshop",
+    "instructorName": "Michael Brown",
+    "totalStudents": 12,
+    "availableSeats": 8,
+    "pictureUrl": "https://example.com/street_photography.jpg",
+    "enrollFees": 79.99
+  },
+  {
+    "className": "Wildlife Photography Expedition",
+    "instructorName": "Sarah Thompson",
+    "totalStudents": 10,
+    "availableSeats": 4,
+    "pictureUrl": "https://example.com/wildlife_photography.jpg",
+    "enrollFees": 249.99
+  },
+  {
+    "className": "Food Photography Techniques",
+    "instructorName": "David Rodriguez",
+    "totalStudents": 15,
+    "availableSeats": 10,
+    "pictureUrl": "https://example.com/food_photography.jpg",
+    "enrollFees": 69.99
+  },
+  {
+    "className": "Advanced Lighting Techniques",
+    "instructorName": "Sophia Johnson",
+    "totalStudents": 8,
+    "availableSeats": 3,
+    "pictureUrl": "https://example.com/advanced_lighting.jpg",
+    "enrollFees": 199.99
+  },
+  {
+    "className": "Astrophotography Masterclass",
+    "instructorName": "Robert Adams",
+    "totalStudents": 20,
+    "availableSeats": 5,
+    "pictureUrl": "https://example.com/astrophotography.jpg",
+    "enrollFees": 129.99
+  },
+  {
+    "className": "Mobile Photography Workshop",
+    "instructorName": "Emma Wilson",
+    "totalStudents": 30,
+    "availableSeats": 12,
+    "pictureUrl": "https://example.com/mobile_photography.jpg",
+    "enrollFees": 49.99
+  },
+  {
+    "className": "Fashion Photography Studio",
+    "instructorName": "Daniel Lee",
+    "totalStudents": 16,
+    "availableSeats": 4,
+    "pictureUrl": "https://example.com/fashion_photography.jpg",
+    "enrollFees": 179.99
+  }
+]

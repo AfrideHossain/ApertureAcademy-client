@@ -23,3 +23,7 @@ body {
 a.active {
   @apply bg-transparent text-purple-500 font-semibold;
 }
+.imgscale:hover img {
+  transition-duration: 1s;
+  transform: scale(1.2);
+}
