@@ -1,4 +1,5 @@
 import Banner from "./Banner/Banner";
+import PopularInstructors from "./PopularInstructors/PopularInstructors";
 import PopulerClasses from "./PopulerClasses/PopulerClasses";
 
 const Homepage = () => {
@@ -6,6 +7,7 @@ const Homepage = () => {
     <>
       <Banner />
       <PopulerClasses />
+      <PopularInstructors />
     </>
   );
 };
