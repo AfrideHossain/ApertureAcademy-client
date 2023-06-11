@@ -1,6 +1,8 @@
 import { useForm } from "react-hook-form";
 import { BsGoogle } from "react-icons/bs";
 import { Link } from "react-router-dom";
+import useContextHook from "../../../hooks/useContextHook";
+import { updateProfile } from "firebase/auth";
 
 const Register = () => {
   const {
@@ -8,9 +10,21 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-
+  const { user, loading, registerUserWithPass } = useContextHook();
   const registrationHandler = (data) => {
-    console.log(data);
+    const { name, email, password, photo } = data;
+    // console.log({ name, email, password, photo });
+    registerUserWithPass(email, password)
+      .then((result) => {
+        let currentUser = result.user;
+        updateProfile(currentUser, {
+          displayName: name,
+        });
+        console.log("update: ", currentUser);
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
   return (
     <>
