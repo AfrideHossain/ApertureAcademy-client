@@ -11,7 +11,7 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { registerUserWithPass } = useContextHook();
+  const { registerUserWithPass, googleLogin } = useContextHook();
   const [error, setError] = useState("");
 
   const registrationHandler = (data) => {
@@ -47,6 +47,17 @@ const Register = () => {
               setError(error.message);
             });
         }
+      });
+  };
+  const socialLogin = () => {
+    googleLogin()
+      .then((result) => {
+        const loggedIn = result.user;
+        console.log(loggedIn);
+      })
+      .catch((err) => {
+        console.log(err);
+        setError(err.message);
       });
   };
   return (
@@ -179,7 +190,10 @@ const Register = () => {
               />
             </div>
           </form>
-          <button className="btn btn-outline btn-primary w-full capitalize text-sm">
+          <button
+            className="btn btn-outline btn-primary w-full capitalize text-sm"
+            onClick={socialLogin}
+          >
             <BsGoogle className="text-2xl" /> Sign in with google
           </button>
         </div>

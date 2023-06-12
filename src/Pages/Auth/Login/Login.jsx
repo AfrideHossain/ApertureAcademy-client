@@ -6,7 +6,7 @@ import { Link } from "react-router-dom";
 import useContextHook from "../../../hooks/useContextHook";
 
 const Login = () => {
-  const { loginUserWithPass } = useContextHook();
+  const { loginUserWithPass, googleLogin } = useContextHook();
   const [error, setError] = useState("");
   const {
     register,
@@ -21,6 +21,17 @@ const Login = () => {
         console.log("Logged in user: ", loggedUser);
       })
       .catch((err) => {
+        setError(err.message);
+      });
+  };
+  const socialLogin = () => {
+    googleLogin()
+      .then((result) => {
+        const loggedIn = result.user;
+        console.log(loggedIn);
+      })
+      .catch((err) => {
+        console.log(err);
         setError(err.message);
       });
   };
@@ -104,7 +115,10 @@ const Login = () => {
               />
             </div>
           </form>
-          <button className="btn btn-outline btn-primary w-full capitalize text-sm">
+          <button
+            className="btn btn-outline btn-primary w-full capitalize text-sm"
+            onClick={socialLogin}
+          >
             <BsGoogle className="text-2xl" /> Sign in with google
           </button>
         </div>
