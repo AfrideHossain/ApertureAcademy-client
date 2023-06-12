@@ -3,6 +3,8 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   onAuthStateChanged,
+  signInWithEmailAndPassword,
+  signOut,
 } from "firebase/auth";
 import app from "../firebase/firebase.config";
 
@@ -25,6 +27,16 @@ const AuthContextProvider = ({ children }) => {
     setLoading(true);
     return createUserWithEmailAndPassword(auth, email, password);
   };
+  // Login user
+  const loginUserWithPass = (email, password) => {
+    setLoading(true);
+    return signInWithEmailAndPassword(auth, email, password);
+  };
+  // Log out user
+  const logOutUser = () => {
+    setLoading(true);
+    return signOut(auth);
+  };
 
   /****************************************/
 
@@ -44,6 +56,8 @@ const AuthContextProvider = ({ children }) => {
     user,
     loading,
     registerUserWithPass,
+    loginUserWithPass,
+    logOutUser,
   };
   return (
     <AuthContext.Provider value={authContextValues}>

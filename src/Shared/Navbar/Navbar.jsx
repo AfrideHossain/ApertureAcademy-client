@@ -1,7 +1,9 @@
 import { Link, NavLink } from "react-router-dom";
-import apertureAcademy from "../../assets/Aperture Academy-logos_transparent.png";
+import apertureAcademy from "../../assets/Aperture_Academy_logos_transparent.png";
+import useContextHook from "../../hooks/useContextHook";
 
 const Navbar = () => {
+  const { user, logOutUser } = useContextHook();
   const navItems = (
     <>
       <li>
@@ -16,7 +18,7 @@ const Navbar = () => {
     </>
   );
   return (
-    <div className="navbar bg-base-100 border-b">
+    <div className="navbar bg-base-100 border-b z-20">
       <div className="navbar-start">
         <div className="dropdown">
           <label tabIndex={0} className="btn btn-ghost lg:hidden">
@@ -54,7 +56,36 @@ const Navbar = () => {
         <ul className="menu menu-horizontal px-1">{navItems}</ul>
       </div>
       <div className="navbar-end">
-        <Link className="btn btn-primary text-white font-semibold">Login</Link>
+        {user ? (
+          <div className="dropdown dropdown-end z-10">
+            <label tabIndex={0} className="btn btn-ghost btn-circle avatar">
+              <div className="w-10 rounded-full">
+                <img src={user?.photoURL} />
+              </div>
+            </label>
+            <ul
+              tabIndex={0}
+              className="mt-3 p-2 shadow menu menu-sm dropdown-content bg-base-100 rounded-box w-52"
+            >
+              <li>
+                <button
+                  onClick={() => {
+                    logOutUser();
+                  }}
+                >
+                  Logout
+                </button>
+              </li>
+            </ul>
+          </div>
+        ) : (
+          <Link
+            className="btn btn-primary text-white font-semibold"
+            to={"/login"}
+          >
+            Login
+          </Link>
+        )}
       </div>
     </div>
   );

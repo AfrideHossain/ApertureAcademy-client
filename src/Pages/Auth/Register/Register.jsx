@@ -3,6 +3,7 @@ import { BsGoogle } from "react-icons/bs";
 import { Link } from "react-router-dom";
 import useContextHook from "../../../hooks/useContextHook";
 import { updateProfile } from "firebase/auth";
+import { useState } from "react";
 
 const Register = () => {
   const {
@@ -10,20 +11,42 @@ const Register = () => {
     handleSubmit,
     formState: { errors },
   } = useForm();
-  const { user, loading, registerUserWithPass } = useContextHook();
+  const { registerUserWithPass } = useContextHook();
+  const [error, setError] = useState("");
+
   const registrationHandler = (data) => {
-    const { name, email, password, photo } = data;
+    const { name, email, password, photo, confirmPass } = data;
     // console.log({ name, email, password, photo });
-    registerUserWithPass(email, password)
-      .then((result) => {
-        let currentUser = result.user;
-        updateProfile(currentUser, {
-          displayName: name,
-        });
-        console.log("update: ", currentUser);
-      })
-      .catch((error) => {
-        console.log(error);
+    if (password !== confirmPass) {
+      setError("Please confirm password.");
+      return;
+    }
+    let formData = new FormData();
+    formData.append("image", photo[0]);
+    fetch(
+      `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_APIKEY}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
+      .then((res) => res.json())
+      .then((imgRes) => {
+        if (imgRes.success) {
+          let photoUrl = imgRes.data.display_url;
+          registerUserWithPass(email, password)
+            .then((result) => {
+              let currentUser = result.user;
+              updateProfile(currentUser, {
+                displayName: name,
+                photoURL: photoUrl,
+              });
+              console.log(currentUser);
+            })
+            .catch((error) => {
+              setError(error.message);
+            });
+        }
       });
   };
   return (
@@ -47,8 +70,13 @@ const Register = () => {
                 name="name"
                 className="input input-bordered input-accent"
                 placeholder="Full name"
-                {...register("name")}
+                {...register("name", { required: true })}
               />
+            </div>
+            <div className="mt-3 text-red-600">
+              {errors.name?.type === "required" && (
+                <p role="alert">This field is required</p>
+              )}
             </div>
             <div className="form-control">
               <label htmlFor="email" className="label">
@@ -118,13 +146,20 @@ const Register = () => {
                 <p role="alert">This field is required</p>
               )}
             </div>
+
             <div className="form-control">
               <input
                 type="file"
                 className="file-input file-input-bordered file-input-accent w-full mt-3"
-                {...register("photo")}
+                {...register("photo", { required: true })}
               />
             </div>
+            <div className="mt-3 text-red-600">
+              {errors.photo?.type === "required" && (
+                <p role="alert">This field is required</p>
+              )}
+            </div>
+
             <div className="form-control">
               <p className="mt-1">
                 Already have an account?
@@ -132,6 +167,9 @@ const Register = () => {
                   Login
                 </Link>
               </p>
+            </div>
+            <div className="mt-3 text-red-600">
+              {error && <p role="alert">{error}</p>}
             </div>
             <div className="form-control">
               <input

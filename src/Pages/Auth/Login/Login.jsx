@@ -3,8 +3,11 @@ import { useForm } from "react-hook-form";
 import { BsGoogle } from "react-icons/bs";
 import { HiEye } from "react-icons/hi2";
 import { Link } from "react-router-dom";
+import useContextHook from "../../../hooks/useContextHook";
 
 const Login = () => {
+  const { loginUserWithPass } = useContextHook();
+  const [error, setError] = useState("");
   const {
     register,
     handleSubmit,
@@ -12,7 +15,14 @@ const Login = () => {
   } = useForm();
   const [showPass, setShowPass] = useState(false);
   const submitHandler = (credentials) => {
-    console.log(credentials);
+    const { email, password } = credentials;
+    loginUserWithPass(email, password)
+      .then((loggedUser) => {
+        console.log("Logged in user: ", loggedUser);
+      })
+      .catch((err) => {
+        setError(err.message);
+      });
   };
   return (
     <>
@@ -82,6 +92,9 @@ const Login = () => {
                   Create one
                 </Link>
               </p>
+            </div>
+            <div className="mt-3 text-red-600">
+              {error && <p role="alert">{error}</p>}
             </div>
             <div className="form-control">
               <input

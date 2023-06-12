@@ -1,5 +1,5 @@
 import { BsFacebook, BsLinkedin, BsYoutube } from "react-icons/bs";
-import aperture_academy from "../../assets/Aperture Academy-logos_transparent.png";
+import aperture_academy from "../../assets/Aperture_Academy_logos_transparent.png";
 const Footer = () => {
   return (
     <footer className="footer footer-center mt-10 p-10 bg-blue-500 text-primary-content">
