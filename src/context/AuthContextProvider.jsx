@@ -53,6 +53,24 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUserData) => {
       setUser(currentUserData);
+      if (currentUserData.email) {
+        fetch(`${import.meta.env.VITE_BACKEND}/jwtSign`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({
+            username: currentUserData.displayName,
+            email: currentUserData.email,
+          }),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            localStorage.setItem("aperture-token", data.token);
+          });
+      } else {
+        localStorage.removeItem("aperture-token");
+      }
       setLoading(false);
     });
     return () => {

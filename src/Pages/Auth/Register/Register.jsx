@@ -40,8 +40,27 @@ const Register = () => {
               updateProfile(currentUser, {
                 displayName: name,
                 photoURL: photoUrl,
+              }).then(() => {
+                const bodyData = {
+                  name,
+                  email,
+                  photo: photoUrl,
+                  role: "user",
+                };
+                fetch(`${import.meta.env.VITE_BACKEND}/createuser`, {
+                  method: "POST",
+                  headers: {
+                    "content-type": "application/json",
+                  },
+                  body: JSON.stringify(bodyData),
+                })
+                  .then((res) => res.json())
+                  .then((data) => {
+                    if (data.insertedId) {
+                      console.log("user created")
+                    }
+                  });
               });
-              console.log(currentUser);
             })
             .catch((error) => {
               setError(error.message);
