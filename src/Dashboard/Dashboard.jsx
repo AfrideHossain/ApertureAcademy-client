@@ -1,21 +1,23 @@
 import { HiBars3 } from "react-icons/hi2";
 import useContextHook from "../hooks/useContextHook";
-import { Link, Outlet } from "react-router-dom";
+import { Link, NavLink, Outlet } from "react-router-dom";
+import useRole from "../hooks/useRole";
 
 const Dashboard = () => {
   const { user } = useContextHook();
+  const [role] = useRole();
   return (
     <>
       <div className="drawer lg:drawer-open mt-2">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-center">
-          <Outlet />
           <label
             htmlFor="my-drawer-2"
             className="btn btn-ghost drawer-button lg:hidden ms-auto"
           >
             <HiBars3 className="w-6 h-6" />
           </label>
+          <Outlet />
         </div>
         <div className="drawer-side">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
@@ -30,16 +32,31 @@ const Dashboard = () => {
                 <p className="text-xl font-bold text-blue-600">
                   {user?.displayName}
                 </p>
+                <p className="text-sm font-semibold text-orange-600">{role}</p>
                 <p>{user?.email}</p>
               </div>
             </li>
             <li></li>
-            <li>
-              <Link>User home</Link>
-            </li>
-            <li>
-              <Link>Payment history</Link>
-            </li>
+            {role === "instructor" && (
+              <>
+                <li>
+                  <NavLink to="/dashboard/">User home</NavLink>
+                </li>
+                <li>
+                  <NavLink to={"addclass"}>Add class</NavLink>
+                </li>
+              </>
+            )}
+            {role === "admin" && (
+              <>
+                <li>
+                  <NavLink to="/dashboard">Admin home</NavLink>
+                </li>
+                <li>
+                  <NavLink to={"paymentHistory"}>Payment history</NavLink>
+                </li>
+              </>
+            )}
             <li></li>
             <li>
               <Link to="/"> Back to homepage</Link>

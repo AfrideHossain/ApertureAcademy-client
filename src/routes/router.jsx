@@ -9,6 +9,7 @@ import Classes from "../Pages/Classes/Classes";
 import Dashboard from "../Dashboard/Dashboard";
 import SecretRoute from "./SecretRoutes/SecretRoute";
 import InstructorRoute from "./SecretRoutes/InstructorRoute";
+import AddClass from "../Dashboard/AddClass/AddClass";
 
 const router = createBrowserRouter([
   {
@@ -39,7 +40,7 @@ const router = createBrowserRouter([
     ],
   },
   {
-    path: "dashboard",
+    path: "/dashboard",
     element: (
       <SecretRoute>
         <Dashboard />
@@ -47,10 +48,10 @@ const router = createBrowserRouter([
     ),
     children: [
       {
-        path: "payment",
+        path: "addclass",
         element: (
           <InstructorRoute>
-            <Dashboard></Dashboard>
+            <AddClass></AddClass>
           </InstructorRoute>
         ),
       },

@@ -20,7 +20,7 @@ const AuthContextProvider = ({ children }) => {
 
   // Context states
   const [user, setUser] = useState();
-  const [loading, setLoading] = useState(true);
+  const [loading, setLoading] = useState(true); 
 
   /****************************
    ** Auth related functions **
