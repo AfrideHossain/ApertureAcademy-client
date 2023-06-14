@@ -1,6 +1,6 @@
 import { useForm } from "react-hook-form";
 import { BsGoogle } from "react-icons/bs";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useContextHook from "../../../hooks/useContextHook";
 import { updateProfile } from "firebase/auth";
 import { useState } from "react";
@@ -13,6 +13,10 @@ const Register = () => {
   } = useForm();
   const { registerUserWithPass, googleLogin } = useContextHook();
   const [error, setError] = useState("");
+
+  const navigate = useNavigate();
+  const location = useLocation();
+  let from = location?.state?.from?.pathname || "/";
 
   const registrationHandler = (data) => {
     const { name, email, password, photo, confirmPass } = data;
@@ -57,7 +61,7 @@ const Register = () => {
                   .then((res) => res.json())
                   .then((data) => {
                     if (data.insertedId) {
-                      console.log("user created");
+                      navigate(from, { replace: true });
                     }
                   });
               });
@@ -88,7 +92,7 @@ const Register = () => {
           .then((res) => res.json())
           .then((data) => {
             if (data.insertedId) {
-              console.log("user created");
+              navigate(from, { replace: true });
             }
           });
       })

@@ -7,6 +7,8 @@ import Register from "../Pages/Auth/Register/Register";
 import Instructors from "../Pages/Instructors/Instructors";
 import Classes from "../Pages/Classes/Classes";
 import Dashboard from "../Dashboard/Dashboard";
+import SecretRoute from "./SecretRoutes/SecretRoute";
+import InstructorRoute from "./SecretRoutes/InstructorRoute";
 
 const router = createBrowserRouter([
   {
@@ -38,8 +40,21 @@ const router = createBrowserRouter([
   },
   {
     path: "dashboard",
-    element: <Dashboard></Dashboard>,
-    children: [],
+    element: (
+      <SecretRoute>
+        <Dashboard />
+      </SecretRoute>
+    ),
+    children: [
+      {
+        path: "payment",
+        element: (
+          <InstructorRoute>
+            <Dashboard></Dashboard>
+          </InstructorRoute>
+        ),
+      },
+    ],
   },
 ]);
 

@@ -53,7 +53,7 @@ const AuthContextProvider = ({ children }) => {
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, (currentUserData) => {
       setUser(currentUserData);
-      if (currentUserData.email) {
+      if (currentUserData && currentUserData.email) {
         fetch(`${import.meta.env.VITE_BACKEND}/jwtSign`, {
           method: "POST",
           headers: {

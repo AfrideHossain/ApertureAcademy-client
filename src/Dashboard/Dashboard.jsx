@@ -1,6 +1,6 @@
 import { HiBars3 } from "react-icons/hi2";
 import useContextHook from "../hooks/useContextHook";
-import { Link } from "react-router-dom";
+import { Link, Outlet } from "react-router-dom";
 
 const Dashboard = () => {
   const { user } = useContextHook();
@@ -9,7 +9,7 @@ const Dashboard = () => {
       <div className="drawer lg:drawer-open mt-2">
         <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
         <div className="drawer-content flex flex-col items-center justify-center">
-          {/* Page content here */}
+          <Outlet />
           <label
             htmlFor="my-drawer-2"
             className="btn btn-ghost drawer-button lg:hidden ms-auto"
@@ -39,6 +39,10 @@ const Dashboard = () => {
             </li>
             <li>
               <Link>Payment history</Link>
+            </li>
+            <li></li>
+            <li>
+              <Link to="/"> Back to homepage</Link>
             </li>
           </ul>
         </div>

@@ -2,12 +2,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { BsGoogle } from "react-icons/bs";
 import { HiEye } from "react-icons/hi2";
-import { Link } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import useContextHook from "../../../hooks/useContextHook";
 
 const Login = () => {
   const { loginUserWithPass, googleLogin } = useContextHook();
   const [error, setError] = useState("");
+  const navigate = useNavigate();
+  const location = useLocation();
+  let from = location?.state?.from?.pathname || "/";
   const {
     register,
     handleSubmit,
@@ -17,8 +20,8 @@ const Login = () => {
   const submitHandler = (credentials) => {
     const { email, password } = credentials;
     loginUserWithPass(email, password)
-      .then((loggedUser) => {
-        console.log("Logged in user: ", loggedUser);
+      .then(() => {
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         setError(err.message);
@@ -26,9 +29,8 @@ const Login = () => {
   };
   const socialLogin = () => {
     googleLogin()
-      .then((result) => {
-        const loggedIn = result.user;
-        console.log(loggedIn);
+      .then(() => {
+        navigate(from, { replace: true });
       })
       .catch((err) => {
         console.log(err);
