@@ -57,7 +57,7 @@ const Register = () => {
                   .then((res) => res.json())
                   .then((data) => {
                     if (data.insertedId) {
-                      console.log("user created")
+                      console.log("user created");
                     }
                   });
               });
@@ -72,7 +72,25 @@ const Register = () => {
     googleLogin()
       .then((result) => {
         const loggedIn = result.user;
-        console.log(loggedIn);
+        const bodyData = {
+          name: loggedIn.displayName,
+          email: loggedIn.email,
+          photo: loggedIn.photoURL,
+          role: "user",
+        };
+        fetch(`${import.meta.env.VITE_BACKEND}/createuser`, {
+          method: "POST",
+          headers: {
+            "content-type": "application/json",
+          },
+          body: JSON.stringify(bodyData),
+        })
+          .then((res) => res.json())
+          .then((data) => {
+            if (data.insertedId) {
+              console.log("user created");
+            }
+          });
       })
       .catch((err) => {
         console.log(err);
