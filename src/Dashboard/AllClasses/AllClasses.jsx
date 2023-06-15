@@ -1,3 +1,4 @@
+import { useEffect, useState } from "react";
 import {
   HiOutlineCheckCircle,
   HiOutlineClock,
@@ -5,20 +6,20 @@ import {
 } from "react-icons/hi2";
 
 const AllClasses = () => {
-  // TODO: make it conditional
-  const Tag = (
-    <>
-      <p className="badge badge-info py-3 px-3 text-sm items-center gap-1">
-        <HiOutlineClock className="w-4 h-4" /> Pending
-      </p>
-      <p className="badge badge-success py-3 px-3 text-sm items-center gap-1">
-        <HiOutlineCheckCircle className="w-4 h-4" /> Approved
-      </p>
-      <p className="badge badge-error py-3 px-3 text-sm items-center gap-1">
-        <HiOutlineXCircle className="w-4 h-4" /> Denied
-      </p>
-    </>
-  );
+  const [classes, setClasses] = useState([]);
+  useEffect(() => {
+    const token = localStorage.getItem("aperture-token");
+    fetch(`${import.meta.env.VITE_BACKEND}/instructorsclasses`, {
+      method: "get",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then((data) => {
+        setClasses(data);
+      });
+  }, []);
   return (
     <>
       <div className="overflow-x-auto border rounded-lg">
@@ -36,31 +37,33 @@ const AllClasses = () => {
             </tr>
           </thead>
           <tbody>
-            {/* row 1 */}
-            <tr>
-              <th>1</th>
-              <td>Cy Ganderton</td>
-              <td>$150</td>
-              <td>100</td>
-              <td>0</td>
-              <td>
-                <p className="badge badge-info py-3 px-3 text-sm items-center gap-1">
-                  <HiOutlineClock className="w-4 h-4" /> Pending
-                </p>
-                <p className="badge badge-success py-3 px-3 text-sm items-center gap-1">
-                  <HiOutlineCheckCircle className="w-4 h-4" /> Approved
-                </p>
-                <p className="badge badge-error py-3 px-3 text-sm items-center gap-1">
-                  <HiOutlineXCircle className="w-4 h-4" /> Denied
-                </p>
-              </td>
-              <td>
-                Lorem ipsum dolor sit amet consectetur adipisicing elit. At ad
-                nihil enim dolor, officiis fuga totam numquam illo quaerat
-                consectetur obcaecati odio distinctio rerum! Quasi cumque sequi
-                debitis doloremque dolores!
-              </td>
-            </tr>
+            {classes?.map((classInfo, indx) => (
+              <tr key={classInfo._id}>
+                <th>{indx + 1}</th>
+                <td>{classInfo.className}</td>
+                <td>${classInfo.price}</td>
+                <td>{classInfo.seats}</td>
+                <td>0</td>
+                <td>
+                  {classInfo.status === "pending" && (
+                    <p className="badge badge-info py-3 px-3 text-sm items-center gap-1">
+                      <HiOutlineClock className="w-4 h-4" /> Pending
+                    </p>
+                  )}
+                  {classInfo.status === "approved" && (
+                    <p className="badge badge-success py-3 px-3 text-sm items-center gap-1">
+                      <HiOutlineCheckCircle className="w-4 h-4" /> Approved
+                    </p>
+                  )}
+                  {classInfo.status === "denied" && (
+                    <p className="badge badge-error py-3 px-3 text-sm items-center gap-1">
+                      <HiOutlineXCircle className="w-4 h-4" /> Denied
+                    </p>
+                  )}
+                </td>
+                <td>{classInfo?.feedback}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
       </div>
