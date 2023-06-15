@@ -1,6 +1,6 @@
 import { HiBars3 } from "react-icons/hi2";
 import useContextHook from "../hooks/useContextHook";
-import { Link, NavLink, Outlet } from "react-router-dom";
+import { Link, NavLink, Navigate, Outlet } from "react-router-dom";
 import useRole from "../hooks/useRole";
 
 const Dashboard = () => {
@@ -41,8 +41,9 @@ const Dashboard = () => {
             <li></li>
             {role === "instructor" && (
               <>
+                <Navigate to={"instructorhome"} replace />
                 <li>
-                  <NavLink to="/dashboard/">User home</NavLink>
+                  <NavLink to="instructorhome">Instructor home</NavLink>
                 </li>
                 <li>
                   <NavLink to={"addclass"}>Add class</NavLink>
@@ -51,6 +52,7 @@ const Dashboard = () => {
             )}
             {role === "admin" && (
               <>
+                <Navigate to={"adminhome"} replace />
                 <li>
                   <NavLink to="/dashboard">Admin home</NavLink>
                 </li>

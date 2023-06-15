@@ -10,6 +10,8 @@ import Dashboard from "../Dashboard/Dashboard";
 import SecretRoute from "./SecretRoutes/SecretRoute";
 import InstructorRoute from "./SecretRoutes/InstructorRoute";
 import AddClass from "../Dashboard/AddClass/AddClass";
+import InstructorHome from "../Dashboard/InstructorHome/InstructorHome";
+import AdminHome from "../Dashboard/AdminHome/AdminHome";
 
 const router = createBrowserRouter([
   {
@@ -48,10 +50,26 @@ const router = createBrowserRouter([
     ),
     children: [
       {
+        path: "instructorhome",
+        element: (
+          <InstructorRoute>
+            <InstructorHome />
+          </InstructorRoute>
+        ),
+      },
+      {
         path: "addclass",
         element: (
           <InstructorRoute>
             <AddClass></AddClass>
+          </InstructorRoute>
+        ),
+      },
+      {
+        path: "adminhome",
+        element: (
+          <InstructorRoute>
+            <AdminHome />
           </InstructorRoute>
         ),
       },

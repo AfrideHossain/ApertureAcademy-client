@@ -8,7 +8,8 @@ const AddClass = () => {
   const token = localStorage.getItem("aperture-token");
   const addClassHandler = (data) => {
     console.log(data);
-    const { className, instructor, instructorEmail, seats, classImage } = data;
+    const { className, instructor, instructorEmail, seats, price, classImage } =
+      data;
     let formData = new FormData();
     formData.append("image", classImage[0]);
     fetch(
@@ -27,6 +28,7 @@ const AddClass = () => {
             instructor,
             instructorEmail,
             seats,
+            price,
             classImageUrl: photoUrl,
             status: "pending",
           };
@@ -44,7 +46,7 @@ const AddClass = () => {
                 Swal.fire({
                   position: "top-end",
                   icon: "success",
-                  title: "Your work has been saved",
+                  title: "New class added",
                   showConfirmButton: false,
                   timer: 1500,
                 });
@@ -73,7 +75,17 @@ const AddClass = () => {
                 {...register("className", { required: true })}
               />
             </div>
-
+            <div className="form-control">
+              <label className="label">
+                <span className="label-text">Price</span>
+              </label>
+              <input
+                type="text"
+                placeholder="Set price"
+                className="input input-bordered w-full"
+                {...register("price", { required: true, valueAsNumber: true })}
+              />
+            </div>
             <div className="form-control">
               <label className="label">
                 <span className="label-text">Instructor name</span>
