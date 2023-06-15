@@ -54,10 +54,10 @@ const Dashboard = () => {
               <>
                 <Navigate to={"adminhome"} replace />
                 <li>
-                  <NavLink to="/dashboard">Admin home</NavLink>
+                  <NavLink to="/adminhome">Admin home</NavLink>
                 </li>
                 <li>
-                  <NavLink to={"paymentHistory"}>Payment history</NavLink>
+                  <NavLink to={"manageusers"}>Payment history</NavLink>
                 </li>
               </>
             )}

@@ -31,6 +31,8 @@ const AddClass = () => {
             price,
             classImageUrl: photoUrl,
             status: "pending",
+            students: 0,
+            feedback: "",
           };
           fetch(`${import.meta.env.VITE_BACKEND}/addclass`, {
             method: "post",

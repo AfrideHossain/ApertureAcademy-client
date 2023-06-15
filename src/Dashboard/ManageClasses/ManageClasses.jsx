@@ -4,8 +4,7 @@ import {
   HiOutlineClock,
   HiOutlineXCircle,
 } from "react-icons/hi2";
-
-const AllClasses = () => {
+const ManageClasses = () => {
   const [classes, setClasses] = useState([]);
   useEffect(() => {
     const token = localStorage.getItem("aperture-token");
@@ -24,7 +23,7 @@ const AllClasses = () => {
     <>
       {!classes.length > 0 && (
         <h1 className="text-center text-3xl font-semibold">
-          You don{"'"}t have any class yet.
+          There is no classes.
         </h1>
       )}
       <div
@@ -80,4 +79,4 @@ const AllClasses = () => {
   );
 };
 
-export default AllClasses;
+export default ManageClasses;

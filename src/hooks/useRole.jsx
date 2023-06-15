@@ -18,7 +18,7 @@ const useRole = () => {
       );
       let resp = await instructorReq.json();
       setRoleLoading(false);
-      setRole(resp.role.role);
+      setRole(resp?.role?.role);
     };
     fetchInstructor();
   }, [token, user]);
