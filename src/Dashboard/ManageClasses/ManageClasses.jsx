@@ -1,14 +1,12 @@
 import { useEffect, useState } from "react";
-import {
-  HiOutlineCheckCircle,
-  HiOutlineClock,
-  HiOutlineXCircle,
-} from "react-icons/hi2";
+import { HiOutlineCheckCircle, HiOutlineXCircle } from "react-icons/hi2";
+import Swal from "sweetalert2";
 const ManageClasses = () => {
   const [classes, setClasses] = useState([]);
+  const [refetch, setRefetch] = useState(false);
+  const token = localStorage.getItem("aperture-token");
   useEffect(() => {
-    const token = localStorage.getItem("aperture-token");
-    fetch(`${import.meta.env.VITE_BACKEND}/instructorsclasses`, {
+    fetch(`${import.meta.env.VITE_BACKEND}/allclasses`, {
       method: "get",
       headers: {
         authorization: `Bearer ${token}`,
@@ -16,9 +14,61 @@ const ManageClasses = () => {
     })
       .then((res) => res.json())
       .then((data) => {
+        // console.log(data);
         setClasses(data);
+        setRefetch(false);
       });
-  }, []);
+  }, [token, refetch]);
+  const handleApproveBtn = (id) => {
+    fetch(`${import.meta.env.VITE_BACKEND}/class/approve/${id}`, {
+      method: "put",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setRefetch(true);
+      });
+  };
+  const handleDenyBtn = (id) => {
+    Swal.fire({
+      title: "Enter the cancellation reason",
+      input: "text",
+      inputAttributes: {
+        autocapitalize: "off",
+      },
+      showCancelButton: true,
+      confirmButtonText: "Submit",
+      showLoaderOnConfirm: true,
+      preConfirm: (feedback) => {
+        return fetch(`${import.meta.env.VITE_BACKEND}/class/deny/${id}`, {
+          method: "put",
+          headers: {
+            authorization: `Bearer ${token}`,
+            "content-type": "application/json",
+          },
+          body: JSON.stringify({ feedback }),
+        }).then((res) => res.json());
+      },
+      allowOutsideClick: () => !Swal.isLoading(),
+    }).then((result) => {
+      console.log(result);
+      if (result.isConfirmed) {
+        setRefetch(true);
+      }
+    });
+    /* fetch(`${import.meta.env.VITE_BACKEND}/class/approve/${id}`, {
+      method: "put",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setRefetch(true);
+      }); */
+  };
   return (
     <>
       {!classes.length > 0 && (
@@ -37,11 +87,11 @@ const ManageClasses = () => {
             <tr>
               <th>#</th>
               <th>Class Name</th>
-              <th>Price</th>
-              <th>Available Seats</th>
-              <th>Students</th>
-              <th>Status</th>
-              <th>Feedback</th>
+              <th className="text-right">Price</th>
+              <th className="text-right">Available Seats</th>
+              <th>Instructor Name</th>
+              <th>Instructor Email</th>
+              <th className="text-center">Action</th>
             </tr>
           </thead>
           <tbody>
@@ -49,27 +99,38 @@ const ManageClasses = () => {
               <tr key={classInfo._id}>
                 <th>{indx + 1}</th>
                 <td>{classInfo.className}</td>
-                <td>${classInfo.price}</td>
-                <td>{classInfo.seats}</td>
-                <td>0</td>
+                <td className="text-right">${classInfo.price}</td>
+                <td className="text-right">{classInfo.seats}</td>
+                <td>{classInfo.instructor}</td>
+                <td>{classInfo.instructorEmail}</td>
                 <td>
                   {classInfo.status === "pending" && (
-                    <p className="badge badge-info py-3 px-3 text-sm items-center gap-1">
-                      <HiOutlineClock className="w-4 h-4" /> Pending
-                    </p>
+                    <div className="flex gap-1">
+                      <button
+                        className="btn bg-green-500 normal-case outline-none"
+                        onClick={() => handleApproveBtn(classInfo._id)}
+                      >
+                        <HiOutlineCheckCircle className="w-5 h-5" />
+                      </button>
+                      <button className="btn bg-red-500 normal-case outline-none">
+                        <HiOutlineXCircle
+                          className="w-5 h-5"
+                          onClick={() => handleDenyBtn(classInfo._id)}
+                        />
+                      </button>
+                    </div>
                   )}
                   {classInfo.status === "approved" && (
-                    <p className="badge badge-success py-3 px-3 text-sm items-center gap-1">
-                      <HiOutlineCheckCircle className="w-4 h-4" /> Approved
+                    <p className="text-green-600 text-center font-semibold">
+                      Approved
                     </p>
                   )}
                   {classInfo.status === "denied" && (
-                    <p className="badge badge-error py-3 px-3 text-sm items-center gap-1">
-                      <HiOutlineXCircle className="w-4 h-4" /> Denied
+                    <p className="text-red-600 text-center font-semibold">
+                      Denied
                     </p>
                   )}
                 </td>
-                <td>{classInfo?.feedback}</td>
               </tr>
             ))}
           </tbody>

@@ -52,7 +52,7 @@ const AllClasses = () => {
                 <td>{classInfo.className}</td>
                 <td>${classInfo.price}</td>
                 <td>{classInfo.seats}</td>
-                <td>0</td>
+                <td>{classInfo.students}</td>
                 <td>
                   {classInfo.status === "pending" && (
                     <p className="badge badge-info py-3 px-3 text-sm items-center gap-1">
