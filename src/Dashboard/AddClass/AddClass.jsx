@@ -1,12 +1,58 @@
 import { useForm } from "react-hook-form";
 import useContextHook from "../../hooks/useContextHook";
+import Swal from "sweetalert2";
 
 const AddClass = () => {
-  const { register, handleSubmit } = useForm();
+  const { register, handleSubmit, reset } = useForm();
   const { user } = useContextHook();
-
+  const token = localStorage.getItem("aperture-token");
   const addClassHandler = (data) => {
     console.log(data);
+    const { className, instructor, instructorEmail, seats, classImage } = data;
+    let formData = new FormData();
+    formData.append("image", classImage[0]);
+    fetch(
+      `https://api.imgbb.com/1/upload?key=${import.meta.env.VITE_IMGBB_APIKEY}`,
+      {
+        method: "POST",
+        body: formData,
+      }
+    )
+      .then((res) => res.json())
+      .then((imgBbRes) => {
+        if (imgBbRes.success) {
+          let photoUrl = imgBbRes.data.display_url;
+          const bodyData = {
+            className,
+            instructor,
+            instructorEmail,
+            seats,
+            classImageUrl: photoUrl,
+            status: "pending",
+          };
+          fetch(`${import.meta.env.VITE_BACKEND}/addclass`, {
+            method: "post",
+            headers: {
+              "content-type": "application/json",
+              authorization: `Bearer ${token}`,
+            },
+            body: JSON.stringify(bodyData),
+          })
+            .then((res) => res.json())
+            .then((data) => {
+              if (data.insertedId) {
+                Swal.fire({
+                  position: "top-end",
+                  icon: "success",
+                  title: "Your work has been saved",
+                  showConfirmButton: false,
+                  timer: 1500,
+                });
+                reset();
+              }
+            });
+        }
+      });
   };
   return (
     <>
@@ -56,7 +102,6 @@ const AddClass = () => {
                   value: user?.email,
                 })}
                 readOnly
-                // defaultValue={instructorEmail}
               />
             </div>
             <div className="form-control">
