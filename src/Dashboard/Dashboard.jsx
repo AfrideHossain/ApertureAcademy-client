@@ -17,7 +17,9 @@ const Dashboard = () => {
           >
             <HiBars3 className="w-6 h-6" />
           </label>
-          <Outlet />
+          <div className="container">
+            <Outlet />
+          </div>
         </div>
         <div className="drawer-side">
           <label htmlFor="my-drawer-2" className="drawer-overlay"></label>
