@@ -50,6 +50,8 @@ const Register = () => {
                   email,
                   photo: photoUrl,
                   role: "student",
+                  selectedClasses: [],
+                  enrolledClasses: [],
                 };
                 fetch(`${import.meta.env.VITE_BACKEND}/createuser`, {
                   method: "POST",
@@ -81,6 +83,8 @@ const Register = () => {
           email: loggedIn.email,
           photo: loggedIn.photoURL,
           role: "student",
+          selectedClasses: [],
+          enrolledClasses: [],
         };
         fetch(`${import.meta.env.VITE_BACKEND}/createuser`, {
           method: "POST",

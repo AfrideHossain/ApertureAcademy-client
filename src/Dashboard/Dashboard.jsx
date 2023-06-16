@@ -57,7 +57,18 @@ const Dashboard = () => {
                   <NavLink to="adminhome">Admin home</NavLink>
                 </li>
                 <li>
-                  <NavLink to={"manageusers"}>Manage Users</NavLink>
+                  <NavLink to={"manageusers"}>Manage users</NavLink>
+                </li>
+              </>
+            )}
+            {role === "student" && (
+              <>
+                <Navigate to={"studenthome"} replace />
+                <li>
+                  <NavLink to="studenthome">Student home</NavLink>
+                </li>
+                <li>
+                  <NavLink to={"manageusers"}>Payment history</NavLink>
                 </li>
               </>
             )}

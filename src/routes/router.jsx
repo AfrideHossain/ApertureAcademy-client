@@ -14,6 +14,7 @@ import InstructorHome from "../Dashboard/InstructorHome/InstructorHome";
 import AdminHome from "../Dashboard/AdminHome/AdminHome";
 import AdminRoute from "./SecretRoutes/AdminRoute";
 import ManageUsers from "../Dashboard/Manageusers/ManageUsers";
+import StudentHome from "../Dashboard/StudentHome/StudentHome";
 
 const router = createBrowserRouter([
   {
@@ -81,6 +82,14 @@ const router = createBrowserRouter([
           <AdminRoute>
             <ManageUsers />
           </AdminRoute>
+        ),
+      },
+      {
+        path: "studenthome",
+        element: (
+          <SecretRoute>
+            <StudentHome />
+          </SecretRoute>
         ),
       },
     ],
