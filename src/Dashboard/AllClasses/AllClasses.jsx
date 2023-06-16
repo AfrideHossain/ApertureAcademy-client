@@ -7,6 +7,7 @@ import {
 
 const AllClasses = () => {
   const [classes, setClasses] = useState([]);
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const token = localStorage.getItem("aperture-token");
     fetch(`${import.meta.env.VITE_BACKEND}/instructorsclasses`, {
@@ -18,8 +19,12 @@ const AllClasses = () => {
       .then((res) => res.json())
       .then((data) => {
         setClasses(data);
+        setLoading(false);
       });
   }, []);
+  if (loading) {
+    return <progress className="progress w-56 progress-primary"></progress>;
+  }
   return (
     <>
       {!classes.length > 0 && (

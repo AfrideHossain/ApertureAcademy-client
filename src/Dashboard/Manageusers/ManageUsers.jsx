@@ -6,6 +6,7 @@ const ManageUsers = () => {
   const [users, setUsers] = useState([]);
   const { user } = useContextHook();
   const [refetch, setRefetch] = useState(false);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("aperture-token");
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND}/users`, {
@@ -19,6 +20,7 @@ const ManageUsers = () => {
         let newUsersArr = data.filter((usr) => usr.email !== user.email);
         setUsers(newUsersArr);
         setRefetch(false);
+        setLoading(false);
       });
   }, [token, refetch, user]);
   const handleChangeUserRole = (id, role) => {
@@ -35,7 +37,9 @@ const ManageUsers = () => {
         setRefetch(true);
       });
   };
-
+  if (loading) {
+    return <progress className="progress w-56 progress-primary"></progress>;
+  }
   return (
     <>
       {!users.length > 0 && (

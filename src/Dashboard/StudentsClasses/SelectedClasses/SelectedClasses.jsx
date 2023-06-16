@@ -5,6 +5,7 @@ import useContextHook from "../../../hooks/useContextHook";
 const SelectedClasses = () => {
   const [classes, setClasses] = useState([]);
   const { user } = useContextHook();
+  const [loading, setLoading] = useState(true);
   useEffect(() => {
     const token = localStorage.getItem("aperture-token");
     fetch(
@@ -30,9 +31,13 @@ const SelectedClasses = () => {
           .then((res) => res.json())
           .then((resp_data) => {
             setClasses(resp_data);
+            setLoading(false);
           });
       });
   }, [user]);
+  if (loading) {
+    return <progress className="progress w-56 progress-primary"></progress>;
+  }
   return (
     <>
       <StudentsClasses classes={classes} />

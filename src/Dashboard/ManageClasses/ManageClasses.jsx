@@ -4,6 +4,7 @@ import Swal from "sweetalert2";
 const ManageClasses = () => {
   const [classes, setClasses] = useState([]);
   const [refetch, setRefetch] = useState(false);
+  const [loading, setLoading] = useState(true);
   const token = localStorage.getItem("aperture-token");
   useEffect(() => {
     fetch(`${import.meta.env.VITE_BACKEND}/allclasses`, {
@@ -17,6 +18,7 @@ const ManageClasses = () => {
         // console.log(data);
         setClasses(data);
         setRefetch(false);
+        setLoading(false);
       });
   }, [token, refetch]);
   const handleApproveBtn = (id) => {
@@ -59,6 +61,9 @@ const ManageClasses = () => {
       }
     });
   };
+  if (loading) {
+    return <progress className="progress w-56 progress-primary"></progress>;
+  }
   return (
     <>
       {!classes.length > 0 && (
