@@ -19,19 +19,19 @@ const ManageUsers = () => {
         setRefetch(false);
       });
   }, [token, refetch]);
-  const handleMakeInstructor = (id) => {
-    fetch(`${import.meta.env.VITE_BACKEND}/user/makeInstructor/${id}`, {
+  const handleChangeUserRole = (id, role) => {
+    fetch(`${import.meta.env.VITE_BACKEND}/user/changerole/${id}`, {
       method: "put",
       headers: {
         authorization: `Bearer ${token}`,
       },
+      body: JSON.stringify({ role }),
     })
       .then((res) => res.json())
       .then(() => {
         setRefetch(true);
       });
   };
-
 
   return (
     <>
@@ -94,13 +94,15 @@ const ManageUsers = () => {
                 <th className="grid gap-2">
                   <button
                     className="btn btn-sm btn-primary btn-outline normal-case"
-                    onClick={() => handleMakeAdmin(userInfo._id)}
+                    onClick={() => handleChangeUserRole(userInfo._id, "admin")}
                   >
                     Make Admin
                   </button>
                   <button
                     className="btn btn-sm btn-success btn-outline normal-case"
-                    onClick={() => handleMakeInstructor(userInfo._id)}
+                    onClick={() =>
+                      handleChangeUserRole(userInfo._id, "instructor")
+                    }
                   >
                     Make Instructor
                   </button>
