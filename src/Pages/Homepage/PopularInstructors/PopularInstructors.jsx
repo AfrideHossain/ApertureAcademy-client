@@ -35,9 +35,6 @@ const PopularInstructors = () => {
         className="mt-10"
         breakpoints={{ 640: { slidesPerView: 4, centeredSlides: true } }}
       >
-        {/* <SwiperSlide>
-          <Instructor />
-        </SwiperSlide> */}
         {instructors?.map((instructor) => (
           <SwiperSlide key={instructor._id}>
             <Instructor instructor={instructor} />
