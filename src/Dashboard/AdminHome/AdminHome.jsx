@@ -3,7 +3,7 @@ import ManageClasses from "../ManageClasses/ManageClasses";
 const AdminHome = () => {
   return (
     <>
-      <div className="p-4">
+      <div>
         <ManageClasses />
       </div>
     </>

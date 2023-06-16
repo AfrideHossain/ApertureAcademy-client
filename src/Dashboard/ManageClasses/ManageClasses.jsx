@@ -58,16 +58,6 @@ const ManageClasses = () => {
         setRefetch(true);
       }
     });
-    /* fetch(`${import.meta.env.VITE_BACKEND}/class/approve/${id}`, {
-      method: "put",
-      headers: {
-        authorization: `Bearer ${token}`,
-      },
-    })
-      .then((res) => res.json())
-      .then(() => {
-        setRefetch(true);
-      }); */
   };
   return (
     <>

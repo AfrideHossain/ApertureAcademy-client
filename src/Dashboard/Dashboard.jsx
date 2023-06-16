@@ -17,7 +17,7 @@ const Dashboard = () => {
           >
             <HiBars3 className="w-6 h-6" />
           </label>
-          <div className="container">
+          <div className="container p-4">
             <Outlet />
           </div>
         </div>
