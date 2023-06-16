@@ -1,6 +1,5 @@
 import { useEffect, useState } from "react";
 import { FaUserTie, FaUserCog, FaUser } from "react-icons/fa";
-import Swal from "sweetalert2";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
@@ -20,46 +19,19 @@ const ManageUsers = () => {
         setRefetch(false);
       });
   }, [token, refetch]);
-  // const handleApproveBtn = (id) => {
-  //   fetch(`${import.meta.env.VITE_BACKEND}/class/approve/${id}`, {
-  //     method: "put",
-  //     headers: {
-  //       authorization: `Bearer ${token}`,
-  //     },
-  //   })
-  //     .then((res) => res.json())
-  //     .then(() => {
-  //       setRefetch(true);
-  //     });
-  // };
-  // const handleDenyBtn = (id) => {
-  //   Swal.fire({
-  //     title: "Enter the cancellation reason",
-  //     input: "text",
-  //     inputAttributes: {
-  //       autocapitalize: "off",
-  //     },
-  //     showCancelButton: true,
-  //     confirmButtonText: "Submit",
-  //     showLoaderOnConfirm: true,
-  //     preConfirm: (feedback) => {
-  //       return fetch(`${import.meta.env.VITE_BACKEND}/class/deny/${id}`, {
-  //         method: "put",
-  //         headers: {
-  //           authorization: `Bearer ${token}`,
-  //           "content-type": "application/json",
-  //         },
-  //         body: JSON.stringify({ feedback }),
-  //       }).then((res) => res.json());
-  //     },
-  //     allowOutsideClick: () => !Swal.isLoading(),
-  //   }).then((result) => {
-  //     console.log(result);
-  //     if (result.isConfirmed) {
-  //       setRefetch(true);
-  //     }
-  //   });
-  // };
+  const handleMakeInstructor = (id) => {
+    fetch(`${import.meta.env.VITE_BACKEND}/user/makeInstructor/${id}`, {
+      method: "put",
+      headers: {
+        authorization: `Bearer ${token}`,
+      },
+    })
+      .then((res) => res.json())
+      .then(() => {
+        setRefetch(true);
+      });
+  };
+
 
   return (
     <>
@@ -120,10 +92,16 @@ const ManageUsers = () => {
                   )}
                 </td>
                 <th className="grid gap-2">
-                  <button className="btn btn-sm btn-primary btn-outline normal-case">
+                  <button
+                    className="btn btn-sm btn-primary btn-outline normal-case"
+                    onClick={() => handleMakeAdmin(userInfo._id)}
+                  >
                     Make Admin
                   </button>
-                  <button className="btn btn-sm btn-success btn-outline normal-case">
+                  <button
+                    className="btn btn-sm btn-success btn-outline normal-case"
+                    onClick={() => handleMakeInstructor(userInfo._id)}
+                  >
                     Make Instructor
                   </button>
                 </th>
