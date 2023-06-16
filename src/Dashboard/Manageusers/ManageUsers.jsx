@@ -1,8 +1,10 @@
 import { useEffect, useState } from "react";
 import { FaUserTie, FaUserCog, FaUser } from "react-icons/fa";
+import useContextHook from "../../hooks/useContextHook";
 
 const ManageUsers = () => {
   const [users, setUsers] = useState([]);
+  const { user } = useContextHook();
   const [refetch, setRefetch] = useState(false);
   const token = localStorage.getItem("aperture-token");
   useEffect(() => {
@@ -14,16 +16,17 @@ const ManageUsers = () => {
     })
       .then((res) => res.json())
       .then((data) => {
-        console.log(data);
-        setUsers(data);
+        let newUsersArr = data.filter((usr) => usr.email !== user.email);
+        setUsers(newUsersArr);
         setRefetch(false);
       });
-  }, [token, refetch]);
+  }, [token, refetch, user]);
   const handleChangeUserRole = (id, role) => {
     fetch(`${import.meta.env.VITE_BACKEND}/user/changerole/${id}`, {
       method: "put",
       headers: {
         authorization: `Bearer ${token}`,
+        "content-type": "application/json",
       },
       body: JSON.stringify({ role }),
     })
@@ -77,7 +80,7 @@ const ManageUsers = () => {
                 <td>
                   {userInfo.role === "student" && (
                     <p className="badge badge-info py-3 px-3 text-sm items-center gap-1 font-semibold">
-                      <FaUser className="w-4 h-4" /> Student
+                      <FaUser /> Student
                     </p>
                   )}
                   {userInfo.role === "instructor" && (
@@ -87,19 +90,25 @@ const ManageUsers = () => {
                   )}
                   {userInfo.role === "admin" && (
                     <p className="badge badge-primary py-3 px-3 text-sm items-center gap-1 font-semibold">
-                      <FaUserCog className="w-4 h-4" /> Admin
+                      <FaUserCog /> Admin
                     </p>
                   )}
                 </td>
                 <th className="grid gap-2">
                   <button
-                    className="btn btn-sm btn-primary btn-outline normal-case"
+                    className={`btn btn-sm btn-outline ${
+                      userInfo.role === "admin" ? "btn-disabled" : "btn-primary"
+                    } normal-case`}
                     onClick={() => handleChangeUserRole(userInfo._id, "admin")}
                   >
                     Make Admin
                   </button>
                   <button
-                    className="btn btn-sm btn-success btn-outline normal-case"
+                    className={`btn btn-sm btn-outline ${
+                      userInfo.role === "instructor"
+                        ? "btn-disabled"
+                        : "btn-success"
+                    } normal-case`}
                     onClick={() =>
                       handleChangeUserRole(userInfo._id, "instructor")
                     }

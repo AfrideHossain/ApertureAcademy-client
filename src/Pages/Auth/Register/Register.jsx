@@ -49,7 +49,7 @@ const Register = () => {
                   name,
                   email,
                   photo: photoUrl,
-                  role: "user",
+                  role: "student",
                 };
                 fetch(`${import.meta.env.VITE_BACKEND}/createuser`, {
                   method: "POST",
@@ -80,7 +80,7 @@ const Register = () => {
           name: loggedIn.displayName,
           email: loggedIn.email,
           photo: loggedIn.photoURL,
-          role: "user",
+          role: "student",
         };
         fetch(`${import.meta.env.VITE_BACKEND}/createuser`, {
           method: "POST",
