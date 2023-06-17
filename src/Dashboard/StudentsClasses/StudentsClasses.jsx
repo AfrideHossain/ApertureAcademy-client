@@ -1,4 +1,4 @@
-const StudentsClasses = ({ classes }) => {
+const StudentsClasses = ({ classes, deleteHandler, showDelete }) => {
   return (
     <>
       {!classes.length > 0 && (
@@ -20,6 +20,7 @@ const StudentsClasses = ({ classes }) => {
               <th>Instructor</th>
               <th>Instructor Email</th>
               <th>Price</th>
+              {showDelete && <th>Action</th>}
             </tr>
           </thead>
           <tbody>
@@ -30,6 +31,16 @@ const StudentsClasses = ({ classes }) => {
                 <td>{classInfo.instructor}</td>
                 <td>{classInfo.instructorEmail}</td>
                 <td>${classInfo.price}</td>
+                {showDelete && (
+                  <td>
+                    <button
+                      className="btn btn-md btn-error normal-case"
+                      onClick={() => deleteHandler(classInfo._id)}
+                    >
+                      Delete
+                    </button>
+                  </td>
+                )}
               </tr>
             ))}
           </tbody>
