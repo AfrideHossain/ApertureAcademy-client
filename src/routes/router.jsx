@@ -15,6 +15,7 @@ import AdminHome from "../Dashboard/AdminHome/AdminHome";
 import AdminRoute from "./SecretRoutes/AdminRoute";
 import ManageUsers from "../Dashboard/Manageusers/ManageUsers";
 import StudentHome from "../Dashboard/StudentHome/StudentHome";
+import Payment from "../Dashboard/Payment/Payment";
 
 const router = createBrowserRouter([
   {
@@ -89,6 +90,14 @@ const router = createBrowserRouter([
         element: (
           <SecretRoute>
             <StudentHome />
+          </SecretRoute>
+        ),
+      },
+      {
+        path: "payment",
+        element: (
+          <SecretRoute>
+            <Payment />
           </SecretRoute>
         ),
       },

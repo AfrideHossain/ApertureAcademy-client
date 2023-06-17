@@ -2,13 +2,18 @@ import { useEffect, useState } from "react";
 import StudentsClasses from "../StudentsClasses";
 import useContextHook from "../../../hooks/useContextHook";
 import Swal from "sweetalert2";
+import { HiCreditCard } from "react-icons/hi2";
+import { useNavigate } from "react-router-dom";
 
 const SelectedClasses = () => {
   const [classes, setClasses] = useState([]);
   const { user } = useContextHook();
   const [loading, setLoading] = useState(true);
   const [refetch, setRefetch] = useState(true);
+  const [total, setTotal] = useState(0);
   const token = localStorage.getItem("aperture-token");
+
+  const navigate = useNavigate();
   useEffect(() => {
     setLoading(true);
     fetch(
@@ -36,11 +41,16 @@ const SelectedClasses = () => {
             setClasses(resp_data);
             setLoading(false);
             setRefetch(false);
+            const countTotal = resp_data
+              ?.reduce((acc, current) => {
+                return acc + parseFloat(current.price);
+              }, 0)
+              .toFixed(2);
+            setTotal(countTotal);
           });
       });
   }, [token, user, refetch]);
 
-  // eslint-disable-next-line no-unused-vars
   const deleteHandler = (id) => {
     const newClasses = [];
     let filteredClasses = classes.filter((classInfo) => classInfo._id !== id);
@@ -76,11 +86,26 @@ const SelectedClasses = () => {
   }
   return (
     <>
-      <StudentsClasses
-        classes={classes}
-        deleteHandler={deleteHandler}
-        showDelete={true}
-      />
+      <div className="w-full">
+        <StudentsClasses
+          classes={classes}
+          deleteHandler={deleteHandler}
+          showDelete={true}
+        />
+        <div className=" w-full mt-5 flex justify-between items-center">
+          <div>
+            <p className="text-lg font-semibold">Total: ${total}</p>
+          </div>
+          <button
+            className="btn btn-primary"
+            onClick={() => {
+              navigate("/dashboard/payment", { state: { totalAmount: total } });
+            }}
+          >
+            <HiCreditCard className="w-6 h-6" /> Proceed payment
+          </button>
+        </div>
+      </div>
     </>
   );
 };
