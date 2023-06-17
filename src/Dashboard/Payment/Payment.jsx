@@ -7,13 +7,52 @@ function Payment() {
   const { user } = useContextHook();
   const location = useLocation();
   const totalAmount = location.state.totalAmount;
+  const classes = location.state.classes;
+
   const [paymentCompleted, setPaymentCompleted] = useState(false);
+
+  const token = localStorage.getItem("aperture-token");
 
   const handleSuccessfullPayment = async (paymentResult) => {
     try {
-      console.log(paymentResult);
-      setPaymentCompleted(true);
-      alert(`Transaction successfully completed by ${paymentResult.payerID}.`);
+      if (paymentResult.status === "COMPLETED") {
+        let classesIds = [];
+        classes.map((cls) => classesIds.push(cls._id));
+        const paymentID = paymentResult.id; // Extract the payment ID from the response
+        const payerID = paymentResult.payer.payer_id;
+        const createTime = paymentResult.create_time;
+        const paidBy = paymentResult.payer.email_address;
+        const name = user.displayName;
+        const email = user.email;
+        const bodyData = {
+          paymentID,
+          payerID,
+          createTime,
+          paidBy,
+          name,
+          email,
+          totalAmount,
+          classesIds,
+        };
+        const paymentReq = await fetch(
+          `${import.meta.env.VITE_BACKEND}/payment-process`,
+          {
+            method: "post",
+            headers: {
+              authorization: `Bearer ${token}`,
+              "content-type": "application/json",
+            },
+            body: JSON.stringify(bodyData),
+          }
+        );
+        const response = await paymentReq.json();
+        if (response.success) {
+          setPaymentCompleted(true);
+          console.log("Transaction successfully verified and stored.");
+        } else {
+          console.log("Transaction processing failed.");
+        }
+      }
     } catch (error) {
       console.log(error);
     }

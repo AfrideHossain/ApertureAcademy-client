@@ -99,7 +99,9 @@ const SelectedClasses = () => {
           <button
             className="btn btn-primary"
             onClick={() => {
-              navigate("/dashboard/payment", { state: { totalAmount: total } });
+              navigate("/dashboard/payment", {
+                state: { totalAmount: total, classes },
+              });
             }}
           >
             <HiCreditCard className="w-6 h-6" /> Proceed payment

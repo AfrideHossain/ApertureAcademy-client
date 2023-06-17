@@ -16,6 +16,8 @@ import AdminRoute from "./SecretRoutes/AdminRoute";
 import ManageUsers from "../Dashboard/Manageusers/ManageUsers";
 import StudentHome from "../Dashboard/StudentHome/StudentHome";
 import Payment from "../Dashboard/Payment/Payment";
+import PaymentHistory from "../Dashboard/PaymentHistory/PaymentHistory";
+import EnrolledClasses from "../Dashboard/StudentsClasses/EnrolledClasses/EnrolledClasses";
 
 const router = createBrowserRouter([
   {
@@ -98,6 +100,22 @@ const router = createBrowserRouter([
         element: (
           <SecretRoute>
             <Payment />
+          </SecretRoute>
+        ),
+      },
+      {
+        path: "paymenthistory",
+        element: (
+          <SecretRoute>
+            <PaymentHistory />
+          </SecretRoute>
+        ),
+      },
+      {
+        path: "enrolledclasses",
+        element: (
+          <SecretRoute>
+            <EnrolledClasses />
           </SecretRoute>
         ),
       },

@@ -68,6 +68,9 @@ const Dashboard = () => {
                   <NavLink to="studenthome">Student home</NavLink>
                 </li>
                 <li>
+                  <NavLink to={"enrolledclasses"}>Enrolled Classes</NavLink>
+                </li>
+                <li>
                   <NavLink to={"paymenthistory"}>Payment history</NavLink>
                 </li>
               </>
